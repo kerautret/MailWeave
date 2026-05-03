@@ -21,9 +21,11 @@ Overview of workflow
 
 For example, your CSV might look like this:
 ```csv
-name,email,company,message
-Jane Doe,jane.doe@example.com,Acme,Hello {{name}} from {{company}} Greetings!
-John Doe,john.doe@example.com,Acme,Hello {{name}} from {{company}} !
+name,email,message
+John Doe,john.doe@example.com,"Dear {{name}}, This is a test message for you."
+Jane Smith,jane.smith@example.com,"Hi {{name}}, I hope this message finds you well."
+Bob Johnson,bob.johnson@example.com,"Hello {{name}}, Thank you for your time."
+Alice Williams,alice.williams@example.com,"Dear {{name}}, Looking forward to hearing from you."
 ```
 
 
