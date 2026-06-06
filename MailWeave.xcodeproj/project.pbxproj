@@ -329,7 +329,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"MailWeave/Preview Content\"";
 				DEVELOPMENT_TEAM = VTT9S468WV;
 				ENABLE_PREVIEWS = YES;
@@ -359,7 +359,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"MailWeave/Preview Content\"";
 				DEVELOPMENT_TEAM = VTT9S468WV;
 				ENABLE_PREVIEWS = YES;

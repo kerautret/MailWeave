@@ -581,6 +581,9 @@ private struct ComposeView: View {
                 .font(.headline)
               TextField("Subject", text: $emailSubject)
                 .textFieldStyle(.roundedBorder)
+                .onChange(of: emailSubject) { _ in
+                  applyGlobalSubject()
+                }
             }
             HStack{  Text("CC (comma-separated)")
                 .font(.headline)
@@ -683,6 +686,11 @@ private struct ComposeView: View {
             recipients[index].message = defaultMessage
         }
     }
+   private func applyGlobalSubject() {
+      for index in recipients.indices {
+          recipients[index].subject = emailSubject
+      }
+  }
 
     private func setAllRecipientsSelected(_ isSelected: Bool) {
         for index in recipients.indices {
