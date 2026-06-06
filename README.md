@@ -9,24 +9,36 @@ Current version: `0.3`
 
 MailWeave is a macOS application designed to synthesize personalized email drafts in Apple Mail from tabular (CSV) data. Given a CSV file, users map columns (for example, `email`, `name`, `company`) and provide a message template. MailWeave then instantiates one draft per recipient by resolving template placeholders with the corresponding row values.
 
-
-![](snapshot.png)
-
-
 Overview of workflow
 - Import a CSV file (any delimiter is supported; the default is `;`) and map relevant headers.
 - Select the composition mode: a single global template or per-recipient messages.
 - Employ `{{header}}` placeholders (e.g., `{{name}}`, `{{company}}`) to parameterize subject and body content.
 - Generate Mail.app drafts for subsequent inspection and sending.
 
-For example, your CSV might look like this:
+For example, if your CSV  looks like this:
 ```csv
 name,email,message
 John Doe,john.doe@example.com,"Dear {{name}}, This is a test message for you."
 Jane Smith,jane.smith@example.com,"Hi {{name}}, I hope this message finds you well."
 Bob Johnson,bob.johnson@example.com,"Hello {{name}}, Thank you for your time."
-Alice Williams,alice.williams@example.com,"Dear {{name}}, Looking forward to hearing from you."
+Alice Williams,alice.williams@example.com,"Dear {{name}}, 
+
+mutline comment
+
+Looking forward to hearing from 
+
+you."
 ```
+
+![](snapshots/main.png)
+
+
+You can first check the mapping and the template emails instances before generating the emails.
+![](snapshots/check.png)
+
+Lastly, you can generate your mails
+
+![](snapshots/mails.png)
 
 
 ## Requirements
@@ -40,7 +52,6 @@ Alice Williams,alice.williams@example.com,"Dear {{name}}, Looking forward to hea
 
 1. Open the project in Xcode.
 2. Build and run the project (⌘R).
-
 
 ## CSV Format
 
