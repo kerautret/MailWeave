@@ -36,7 +36,7 @@ you."
 You can first check the mapping and the template emails instances before generating the emails.
 ![](snapshots/check-small.png)
 
-Lastly, you can generate your mails
+Once checked, you can generate your mails
 
 ![](snapshots/mails-small.png)
 
