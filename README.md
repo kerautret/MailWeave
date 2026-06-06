@@ -30,16 +30,13 @@ Looking forward to hearing from
 you."
 ```
 
-![](snapshots/main-small.png)
 
-
-You can first check the mapping and the template emails instances before generating the emails.
-![](snapshots/check-small.png)
-
-Once checked, you can generate your mails
-
-![](snapshots/mails-small.png)
-
+Loading this CSV in MailWeve, you can first check the mapping and the template emails instances. Once checked, you can generate your mails.
+<table>
+<tr>
+<td><img src="snapshots/main.png"></td><td><img src="snapshots/check.png"></td><td><img src="snapshots/mails.png"></td>
+</tr>
+</table>
 
 ## Requirements
 
