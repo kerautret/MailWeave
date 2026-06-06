@@ -214,6 +214,7 @@ struct ContentView: View {
             return
         }
         
+      
         let emailService = EmailService()
         emailService.sendEmails(to: selectedRecipients, subject: emailSubject, cc: ccList, replyTo: replyMail) { results in
             let successCount = results.filter { $0 }.count
@@ -345,6 +346,7 @@ private struct ImportView: View {
     let onImport: (Result<[URL], Error>) -> Void
     let onProceed: () -> Void
     @State private var isDroppingFile: Bool = false
+    @State private var hasImport: Bool = false
     private var delimiterValue: String {
         switch delimiterOption {
         case .comma:
@@ -391,6 +393,7 @@ private struct ImportView: View {
                     allowsMultipleSelection: false
                 ) { result in
                     onImport(result)
+                    hasImport = true
                 }
                 .onDrop(of: [UTType.fileURL], isTargeted: $isDroppingFile) { providers in
                     guard let provider = providers.first else { return false }
@@ -399,6 +402,7 @@ private struct ImportView: View {
                               let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
                         DispatchQueue.main.async {
                             onImport(.success([url]))
+                          hasImport = true
                         }
                     }
                     return true
@@ -432,13 +436,13 @@ private struct ImportView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Message Mode")
-                    .font(.headline)
                 Picker("Message mode", selection: $messageMode) {
                     ForEach(MessageMode.allCases) { mode in
                         Text(mode.label).tag(mode)
                     }
                 }
+                .font(.headline)
+                .disabled(!hasImport)
                 .pickerStyle(.segmented)
             }
             .padding(.horizontal)
