@@ -7,6 +7,7 @@ struct Recipient: Identifiable, Codable {
     var name: String
     var email: String
     var message: String
+    var subject: String
     var fields: [String: String]
     var selected: Bool = true
 }
@@ -263,7 +264,8 @@ struct ContentView: View {
             rows: importedRows,
             emailHeader: selectedEmailHeader,
             messageHeader: selectedMessageHeader,
-            messageMode: messageMode
+            messageMode: messageMode,
+            messageSubject: emailSubject
         )
 
         if mappedRecipients.isEmpty {
@@ -287,7 +289,8 @@ struct ContentView: View {
         rows: [[String: String]],
         emailHeader: String,
         messageHeader: String,
-        messageMode: MessageMode
+        messageMode: MessageMode,
+        messageSubject: String
     ) -> [Recipient] {
         var mapped: [Recipient] = []
 
@@ -313,7 +316,7 @@ struct ContentView: View {
             fields["message"] = message
             fields["name"] = name
 
-            mapped.append(Recipient(name: name, email: email, message: message, fields: fields))
+          mapped.append(Recipient(name: name, email: email, message: message, subject: messageSubject, fields: fields))
         }
 
         return mapped
@@ -733,6 +736,9 @@ struct RecipientRow: View {
     private var personalizedMessage: String {
         EmailService().personalizeMessage(recipient.message, fields: recipient.fields)
     }
+    private var personalizedSubject: String {
+      EmailService().personalizeMessage(recipient.subject, fields: recipient.fields)
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -767,11 +773,19 @@ struct RecipientRow: View {
                             .border(Color.gray.opacity(0.5))
                     }
 
-                    Text("Preview:")
+                    Text("Subject preview:")
                         .font(.caption)
                         .foregroundColor(.gray)
-
-                    Text(personalizedMessage)
+                   Text(personalizedSubject)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(8)
+                      .background(Color.gray.opacity(0.08))
+                      .cornerRadius(6)
+                  Text("Content preview:")
+                      .font(.caption)
+                      .foregroundColor(.gray)
+ 
+                  Text(personalizedMessage)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(8)
                         .background(Color.gray.opacity(0.08))
