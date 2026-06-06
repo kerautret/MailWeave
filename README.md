@@ -82,6 +82,10 @@ David Coeurjolly (david.coeurjolly@cnrs.fr)
 
 Bertrand Kerautret (bertrand.kerautret@univ-lyon2.fr)
 
+## Privacy
+Data Not Collected.
+This app does not collect, store, or share any personal data.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
