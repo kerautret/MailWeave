@@ -534,7 +534,7 @@ private struct ComposeView: View {
     let onBack: () -> Void
     let onSend: () -> Void
     let onPrepare: () -> Void
-
+    @State var indexFirst50 = 0
     private var availableHeaders: [String] {
         let csvHeaderSet = Set(parsedHeaders)
         var keys = Set(recipients.flatMap { $0.fields.keys })
@@ -623,7 +623,7 @@ private struct ComposeView: View {
           }
           .padding(.horizontal)
           
-      ScrollView {
+   
                 // Recipients List
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
@@ -634,6 +634,13 @@ private struct ComposeView: View {
                             setAllRecipientsSelected(!allRecipientsSelected)
                         }
                         .buttonStyle(.bordered)
+                      if !allRecipientsSelected {
+                        Button("select 50 next") {
+                          select50next()
+                        }
+                        .buttonStyle(.bordered)
+                      }
+                     
                     }
                     
                     ScrollView {
@@ -706,7 +713,16 @@ private struct ComposeView: View {
         for index in recipients.indices {
             recipients[index].selected = isSelected
         }
+      indexFirst50 = 0
     }
+  
+  private func select50next() {
+      for index in recipients.indices {
+        let isSelected = index < indexFirst50+50  && indexFirst50 <= index
+        recipients[index].selected = isSelected
+      }
+    indexFirst50 = indexFirst50 + 50
+  }
 }
 
 struct RecipientRow: View {
