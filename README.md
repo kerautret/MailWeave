@@ -30,15 +30,15 @@ Looking forward to hearing from
 you."
 ```
 
-![](snapshots/main.png)
+![](snapshots/main-small.png)
 
 
 You can first check the mapping and the template emails instances before generating the emails.
-![](snapshots/check.png)
+![](snapshots/check-small.png)
 
 Lastly, you can generate your mails
 
-![](snapshots/mails.png)
+![](snapshots/mails-small.png)
 
 
 ## Requirements
