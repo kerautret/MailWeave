@@ -15,7 +15,7 @@ Overview of workflow
 - Employ `{{header}}` placeholders (e.g., `{{name}}`, `{{company}}`) to parameterize subject and body content.
 - Generate Mail.app drafts for subsequent inspection and sending.
 
-For example, if your CSV  looks like this:
+For example, if your CSV looks like this:
 ```csv
 name,email,message
 John Doe,john.doe@example.com,"Dear {{name}}, This is a test message for you."
@@ -29,7 +29,6 @@ Looking forward to hearing from
 
 you."
 ```
-
 
 Loading this CSV in MailWeve, you can first check the mapping and the template emails instances. Once checked, you can generate your mails.
 <table>
