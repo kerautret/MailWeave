@@ -2,7 +2,7 @@ import Foundation
 import AppKit
 
 class EmailService {
-    func sendEmails(to recipients: [Recipient], subject: String, cc: String, replyTo: String, completion: @escaping ([Bool]) -> Void) {
+  func sendEmails(to recipients: [Recipient], subject: String, cc: String, replyTo: String, composeOnly: Bool, completion: @escaping ([Bool]) -> Void) {
         var results: [Bool] = []
         
         // Send emails asynchronously to avoid blocking the UI
@@ -20,8 +20,10 @@ class EmailService {
                 )
                 results.append(success)
                 // Small delay to prevent overwhelming the system
-                Thread.sleep(forTimeInterval: 1)
+              Thread.sleep(forTimeInterval: composeOnly ? 0.5 : 1)
+              if !composeOnly {
                 sendShortcut()
+              }
             }
             
             // Call completion handler on main thread
