@@ -19,9 +19,9 @@ class EmailService {
                     body: body
                 )
                 results.append(success)
-                
                 // Small delay to prevent overwhelming the system
-                Thread.sleep(forTimeInterval: 0.5)
+                Thread.sleep(forTimeInterval: 1)
+                sendShortcut()
             }
             
             // Call completion handler on main thread

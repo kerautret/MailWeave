@@ -12,6 +12,7 @@
 		1A0000005 /* EmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000006 /* EmailService.swift */; };
 		1A0000007 /* SpreadsheetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0000008 /* SpreadsheetParser.swift */; };
 		1A0000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A000000A /* Assets.xcassets */; };
+		CD048ACC2FD5AB960084EDB5 /* SendTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD048ACB2FD5AB8D0084EDB5 /* SendTools.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		71BEA5142F4B371900825E5D /* Changelog.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
 		71C15D482F41F29D00333D15 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		71C15D4C2F41FEE300333D15 /* MailWeave.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MailWeave.xcodeproj; sourceTree = "<group>"; };
+		CD048ACB2FD5AB8D0084EDB5 /* SendTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 		1A0000011 /* MailWeave */ = {
 			isa = PBXGroup;
 			children = (
+				CD048ACB2FD5AB8D0084EDB5 /* SendTools.swift */,
 				1A0000002 /* MailWeaveApp.swift */,
 				1A0000004 /* ContentView.swift */,
 				1A0000006 /* EmailService.swift */,
@@ -187,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD048ACC2FD5AB960084EDB5 /* SendTools.swift in Sources */,
 				1A0000003 /* ContentView.swift in Sources */,
 				1A0000005 /* EmailService.swift in Sources */,
 				1A0000007 /* SpreadsheetParser.swift in Sources */,
@@ -331,7 +335,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MailWeave/Preview Content\"";
-				DEVELOPMENT_TEAM = 2UDS55C3T2;
+				DEVELOPMENT_TEAM = VTT9S468WV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = MailWeave;
@@ -361,7 +365,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MailWeave/Preview Content\"";
-				DEVELOPMENT_TEAM = 2UDS55C3T2;
+				DEVELOPMENT_TEAM = VTT9S468WV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = MailWeave;
