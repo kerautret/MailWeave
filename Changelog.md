@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+## [0.4] - 2026-06-07
+- Add a mode to apply shirt to automatically send the mail
 
 ## [0.3] - 2026-04-18
 - Add Reply a new reply field in mail composition
