@@ -393,7 +393,9 @@ private struct ImportView: View {
                     allowsMultipleSelection: false
                 ) { result in
                     onImport(result)
+                  if case .success(let url) = result {
                     hasImport = true
+                  }
                 }
                 .onDrop(of: [UTType.fileURL], isTargeted: $isDroppingFile) { providers in
                     guard let provider = providers.first else { return false }
@@ -402,8 +404,9 @@ private struct ImportView: View {
                               let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
                         DispatchQueue.main.async {
                             onImport(.success([url]))
-                          hasImport = true
-                        }
+                            if case .success(let url) = result {
+                              hasImport = true
+                            }                        }
                     }
                     return true
                 }
@@ -532,7 +535,7 @@ private struct ComposeView: View {
     @Binding var replyMail: String
     let onBack: () -> Void
     let onSend: () -> Void
-    @State var indexFirst50 = 0
+    @State private var indexFirst50 = 0
     private var availableHeaders: [String] {
         let csvHeaderSet = Set(parsedHeaders)
         var keys = Set(recipients.flatMap { $0.fields.keys })
