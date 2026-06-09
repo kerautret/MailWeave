@@ -401,7 +401,7 @@ private struct ImportView: View {
                 ) { result in
                     onImport(result)
                   if case .success(let url) = result {
-                    hasImport = true
+                    hasImport = !url.isEmpty
                   }
                 }
                 .onDrop(of: [UTType.fileURL], isTargeted: $isDroppingFile) { providers in
@@ -411,9 +411,8 @@ private struct ImportView: View {
                               let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
                         DispatchQueue.main.async {
                             onImport(.success([url]))
-                            if case .success(let url) = result {
                               hasImport = true
-                            }                        }
+                        }
                     }
                     return true
                 }
