@@ -126,7 +126,7 @@ class EmailService {
         }
         
         // Open the URL in Mail.app (must be called on main thread)
-        DispatchQueue.main.sync {
+        _ = DispatchQueue.main.sync {
             NSWorkspace.shared.open(mailtoURL)
         }
         

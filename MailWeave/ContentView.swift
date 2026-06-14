@@ -7,6 +7,7 @@ struct Recipient: Identifiable, Codable {
     var name: String
     var email: String
     var message: String
+    var subject: String
     var fields: [String: String]
     var selected: Bool = true
 }
@@ -213,6 +214,7 @@ struct ContentView: View {
             return
         }
         
+      
         let emailService = EmailService()
         emailService.sendEmails(to: selectedRecipients, subject: emailSubject, cc: ccList, replyTo: replyMail) { results in
             let successCount = results.filter { $0 }.count
@@ -255,7 +257,8 @@ struct ContentView: View {
             rows: importedRows,
             emailHeader: selectedEmailHeader,
             messageHeader: selectedMessageHeader,
-            messageMode: messageMode
+            messageMode: messageMode,
+            messageSubject: emailSubject
         )
 
         if mappedRecipients.isEmpty {
@@ -279,7 +282,8 @@ struct ContentView: View {
         rows: [[String: String]],
         emailHeader: String,
         messageHeader: String,
-        messageMode: MessageMode
+        messageMode: MessageMode,
+        messageSubject: String
     ) -> [Recipient] {
         var mapped: [Recipient] = []
 
@@ -305,7 +309,7 @@ struct ContentView: View {
             fields["message"] = message
             fields["name"] = name
 
-            mapped.append(Recipient(name: name, email: email, message: message, fields: fields))
+          mapped.append(Recipient(name: name, email: email, message: message, subject: messageSubject, fields: fields))
         }
 
         return mapped
@@ -342,6 +346,7 @@ private struct ImportView: View {
     let onImport: (Result<[URL], Error>) -> Void
     let onProceed: () -> Void
     @State private var isDroppingFile: Bool = false
+    @State private var hasImport: Bool = false
     private var delimiterValue: String {
         switch delimiterOption {
         case .comma:
@@ -388,6 +393,9 @@ private struct ImportView: View {
                     allowsMultipleSelection: false
                 ) { result in
                     onImport(result)
+                  if case .success(let url) = result {
+                    hasImport = !url.isEmpty
+                  }
                 }
                 .onDrop(of: [UTType.fileURL], isTargeted: $isDroppingFile) { providers in
                     guard let provider = providers.first else { return false }
@@ -396,6 +404,7 @@ private struct ImportView: View {
                               let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
                         DispatchQueue.main.async {
                             onImport(.success([url]))
+                              hasImport = true
                         }
                     }
                     return true
@@ -429,13 +438,13 @@ private struct ImportView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Message Mode")
-                    .font(.headline)
                 Picker("Message mode", selection: $messageMode) {
                     ForEach(MessageMode.allCases) { mode in
                         Text(mode.label).tag(mode)
                     }
                 }
+                .font(.headline)
+                .disabled(!hasImport)
                 .pickerStyle(.segmented)
             }
             .padding(.horizontal)
@@ -525,7 +534,7 @@ private struct ComposeView: View {
     @Binding var replyMail: String
     let onBack: () -> Void
     let onSend: () -> Void
-
+    @State private var indexFirst50 = 0
     private var availableHeaders: [String] {
         let csvHeaderSet = Set(parsedHeaders)
         var keys = Set(recipients.flatMap { $0.fields.keys })
@@ -574,6 +583,9 @@ private struct ComposeView: View {
                 .font(.headline)
               TextField("Subject", text: $emailSubject)
                 .textFieldStyle(.roundedBorder)
+                .onChange(of: emailSubject) { _ in
+                  applyGlobalSubject()
+                }
             }
             HStack{  Text("CC (comma-separated)")
                 .font(.headline)
@@ -614,7 +626,7 @@ private struct ComposeView: View {
           }
           .padding(.horizontal)
           
-      ScrollView {
+   
                 // Recipients List
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
@@ -625,6 +637,13 @@ private struct ComposeView: View {
                             setAllRecipientsSelected(!allRecipientsSelected)
                         }
                         .buttonStyle(.bordered)
+                      if !allRecipientsSelected {
+                        Button("Select next 50") {
+                          select50next()
+                        }
+                        .buttonStyle(.bordered)
+                      }
+                     
                     }
                     
                     ScrollView {
@@ -642,8 +661,7 @@ private struct ComposeView: View {
                 .padding(.horizontal)
             }
             .padding(.bottom)
-        }
-      // Send Button
+              // Send Button
       Button(action: onSend) {
           HStack {
               Image(systemName: "envelope")
@@ -670,12 +688,28 @@ private struct ComposeView: View {
             recipients[index].message = defaultMessage
         }
     }
+   private func applyGlobalSubject() {
+      for index in recipients.indices {
+          recipients[index].subject = emailSubject
+      }
+  }
 
     private func setAllRecipientsSelected(_ isSelected: Bool) {
         for index in recipients.indices {
             recipients[index].selected = isSelected
         }
+      indexFirst50 = 0
     }
+  
+  private func select50next() {
+      guard indexFirst50 < recipients.count else { return }
+      let start = indexFirst50
+      let end = min(indexFirst50 + 50, recipients.count)
+      for index in recipients.indices {
+          recipients[index].selected = (index >= start && index < end)
+      }
+      indexFirst50 = end
+  }
 }
 
 struct RecipientRow: View {
@@ -685,6 +719,9 @@ struct RecipientRow: View {
 
     private var personalizedMessage: String {
         EmailService().personalizeMessage(recipient.message, fields: recipient.fields)
+    }
+    private var personalizedSubject: String {
+      EmailService().personalizeMessage(recipient.subject, fields: recipient.fields)
     }
     
     var body: some View {
@@ -720,11 +757,19 @@ struct RecipientRow: View {
                             .border(Color.gray.opacity(0.5))
                     }
 
-                    Text("Preview:")
+                    Text("Subject preview:")
                         .font(.caption)
                         .foregroundColor(.gray)
-
-                    Text(personalizedMessage)
+                   Text(personalizedSubject)
+                      .frame(maxWidth: .infinity, alignment: .leading)
+                      .padding(8)
+                      .background(Color.gray.opacity(0.08))
+                      .cornerRadius(6)
+                  Text("Content preview:")
+                      .font(.caption)
+                      .foregroundColor(.gray)
+ 
+                  Text(personalizedMessage)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(8)
                         .background(Color.gray.opacity(0.08))
