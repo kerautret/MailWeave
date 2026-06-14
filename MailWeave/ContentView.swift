@@ -669,7 +669,7 @@ private struct ComposeView: View {
                 .padding(.horizontal)
             }
             .padding(.bottom)
-        }
+        
       HStack(){
         // Prepare Button
         Button(action: onPrepare) {
