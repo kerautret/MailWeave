@@ -228,9 +228,7 @@ struct ContentView: View {
         let failureCount = results.count - successCount
         
         if failureCount != 0 {
-            self.alertMessage = "Successfully created \(successCount) emails in Mail.app"
-        } else {
-            self.alertMessage = "Created \(successCount) emails. Failed: \(failureCount)"
+          self.alertMessage = "Created \(successCount) emails. Failed: \(failureCount)"
         }
         self.showAlert = true
     }
@@ -686,11 +684,6 @@ private struct ComposeView: View {
         .cornerRadius(8)
         .disabled(recipients.filter { $0.selected }.isEmpty)
         .padding(.horizontal)
-        .onAppear {
-          if messageMode == .global {
-            applyGlobalMessage()
-          }
-        }
         // Send Button
         Button(action: onSend) {
           HStack {
