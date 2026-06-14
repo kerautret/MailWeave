@@ -5,8 +5,6 @@
 ## [0.4] - 2026-06-06
 - Add button to select the next 50 recipients (after clicking first on "Unselect all").
 
-
-
 ## [0.3] - 2026-04-18
 - Add Reply a new reply field in mail composition
 - Adjust UI with scrolling adjusted
