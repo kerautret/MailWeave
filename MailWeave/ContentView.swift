@@ -702,11 +702,13 @@ private struct ComposeView: View {
     }
   
   private func select50next() {
+      guard indexFirst50 < recipients.count else { return }
+      let start = indexFirst50
+      let end = min(indexFirst50 + 50, recipients.count)
       for index in recipients.indices {
-        let isSelected = index < indexFirst50+50  && indexFirst50 <= index
-        recipients[index].selected = isSelected
+          recipients[index].selected = (index >= start && index < end)
       }
-    indexFirst50 = indexFirst50 + 50
+      indexFirst50 = end
   }
 }
 
