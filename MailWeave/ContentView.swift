@@ -646,7 +646,7 @@ private struct ComposeView: View {
                         }
                         .buttonStyle(.bordered)
                       if !allRecipientsSelected {
-                        Button("select 50 next") {
+                        Button("Select next 50") {
                           select50next()
                         }
                         .buttonStyle(.bordered)

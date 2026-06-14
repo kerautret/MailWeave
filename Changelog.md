@@ -5,7 +5,7 @@
 - Add a mode to apply shirt to automatically send the mail
 
 ## [0.4] - 2026-06-06
-- Add button to select the next 50 recipients.
+- Add button to select the next 50 recipients (after clicking first on "Unselect all").
 
 
 
