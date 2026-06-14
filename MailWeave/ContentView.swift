@@ -227,10 +227,11 @@ struct ContentView: View {
         let successCount = results.filter { $0 }.count
         let failureCount = results.count - successCount
         
-        if failureCount != 0 {
-          self.alertMessage = "Created \(successCount) emails. Failed: \(failureCount)"
-        }
+      if failureCount != 0 {
+        self.alertMessage = "Created \(successCount) emails. Failed: \(failureCount)"
         self.showAlert = true
+      }
+        
     }
   }
   
