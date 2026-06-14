@@ -9,6 +9,10 @@
 import Cocoa
 import Carbon.HIToolbox
 
+
+
+
+
 // use the Standard CMD-SHIFT-D to send the email from interface
 func sendShortcut() {
     let source = CGEventSource(stateID: .hidSystemState)

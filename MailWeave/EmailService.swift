@@ -3,8 +3,12 @@ import AppKit
 
 class EmailService {
   func sendEmails(to recipients: [Recipient], subject: String, cc: String, replyTo: String, composeOnly: Bool, completion: @escaping ([Bool]) -> Void) {
-        var results: [Bool] = []
-        
+          var results: [Bool] = []
+      if !composeOnly {
+        guard self.ensureAccessibilityPermission() else {
+              return
+          }
+      }
         // Send emails asynchronously to avoid blocking the UI
         DispatchQueue.global(qos: .userInitiated).async {
             for recipient in recipients {
@@ -18,11 +22,18 @@ class EmailService {
                     subject: resolvedSubject,
                     body: body
                 )
-                results.append(success)
-                // Small delay to prevent overwhelming the system
+              results.append(success)
+              // Small delay to prevent overwhelming the system
               Thread.sleep(forTimeInterval: composeOnly ? 0.5 : 1)
               if !composeOnly {
-                sendShortcut()
+                // UI automation must run on main thread
+                DispatchQueue.main.sync {
+                  // Ensure Mail is frontmost before sending shortcut
+                  NSRunningApplication.runningApplications(
+                    withBundleIdentifier: "com.apple.mail"
+                  ).first?.activate(options: [.activateIgnoringOtherApps])
+                  sendShortcut()
+                }
               }
             }
             
@@ -32,7 +43,42 @@ class EmailService {
             }
         }
     }
-    
+  private func ensureAccessibilityPermission() -> Bool {
+      let options: NSDictionary = [
+          kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true
+      ]
+      let trusted = AXIsProcessTrustedWithOptions(options)
+      if !trusted {
+          showAccessibilityAlert()
+      }
+      return trusted
+  }
+
+  private func showAccessibilityAlert() {
+      let alert = NSAlert()
+      alert.messageText = "Accessibility Permission Required"
+      alert.informativeText = """
+      To automatically send emails, this app needs Accessibility permission.
+
+      Go to:
+      System Settings → Privacy & Security → Accessibility
+
+      Then enable access for this app.
+      """
+
+      alert.alertStyle = .warning
+      alert.addButton(withTitle: "Open Settings")
+      alert.addButton(withTitle: "Cancel")
+      let response = alert.runModal()
+      if response == .alertFirstButtonReturn {
+          if let url = URL(
+              string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+          ) {
+              NSWorkspace.shared.open(url)
+          }
+      }
+  }
+
     func personalizeMessage(_ message: String, fields: [String: String]) -> String {
         let normalizedFields = normalizeFieldMap(fields)
         return replacePlaceholders(in: message, fields: normalizedFields)
